@@ -1,0 +1,7 @@
+FROM ros:jazzy
+
+RUN apt update && apt upgrade -y
+
+RUN apt update && apt install -y \
+    ros-jazzy-rplidar-ros \
+    ros-jazzy-rviz2

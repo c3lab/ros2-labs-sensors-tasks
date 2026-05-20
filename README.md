@@ -1,2 +1,2 @@
-# ros2-labs-sensors-tasks
-Sensors &amp; Tasks
+# ros2-labs-06
+Gazebo, bridge, plugins, odom
