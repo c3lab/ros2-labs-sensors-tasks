@@ -1,0 +1,9 @@
+FROM ros:jazzy
+
+RUN apt update && apt upgrade -y
+
+RUN apt install -y \
+    ros-jazzy-usb-cam \
+    ros-jazzy-rviz2
+
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc

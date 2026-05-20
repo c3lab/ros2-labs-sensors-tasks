@@ -1,0 +1,35 @@
+FROM ros:jazzy
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG ROS_DISTRO=jazzy
+
+RUN apt update && apt upgrade -y
+
+RUN apt update && apt install -y  \
+    git                     \
+    build-essential         \
+    libeigen3-dev           \
+    libjsoncpp-dev          \
+    libspdlog-dev           \
+    libcurl4-openssl-dev    \
+    cmake                   \
+    python3-colcon-common-extensions
+
+RUN apt install -y             \
+    ros-${ROS_DISTRO}-pcl-ros     \
+    ros-${ROS_DISTRO}-tf2-eigen   \
+    ros-${ROS_DISTRO}-rviz2
+
+RUN apt install -y libopencv-dev libzip-dev
+
+WORKDIR /root/ros2_ws/src
+RUN git clone -b ros2 --recurse-submodules https://github.com/ouster-lidar/ouster-ros.git
+
+WORKDIR /root/ros2_ws
+RUN /bin/bash -ci "source /opt/ros/${ROS_DISTRO}/setup.bash && \
+    colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release"
+
+# RUN apt install -y ros-${ROS_DISTRO}-rmw-zenoh-cpp
+# ENV RMW_IMPLEMENTATION=rmw_zenoh_cpp
+
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash && source /root/ros2_ws/install/setup.bash" >> ~/.bashrc
