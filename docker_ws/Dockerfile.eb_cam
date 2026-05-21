@@ -1,0 +1,31 @@
+FROM ros:jazzy
+
+RUN apt update && apt upgrade -y
+
+RUN apt update && apt install -y git build-essential cmake
+
+RUN apt update && apt install -y ros-jazzy-metavision-driver
+
+# Setup the viewer
+
+ENV repo=event_camera_renderer
+ENV url=https://github.com/ros-event-camera/${repo}.git
+
+WORKDIR /root/${repo}_ws/src
+RUN git clone ${url}
+# download source repos that the downloaded repository depends on, if any
+RUN /bin/bash -ci "[ -f ${repo}/${repo}.repos ] && vcs import < ${repo}/${repo}.repos ; cd .."
+# install all remaining other system and ROS dependencies via package manager
+RUN rosdep install --from-paths . --ignore-src --rosdistro=jazzy -y
+
+WORKDIR /root/${repo}_ws
+RUN /bin/bash -ci "source /opt/ros/jazzy/setup.bash && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo"
+
+RUN apt update && apt install -y ros-jazzy-rqt-image-view ros-jazzy-rviz2
+
+# Set cyclone dds as default middleware
+RUN apt update && apt install -y ros-jazzy-rmw-cyclonedds-cpp
+ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
+RUN echo "source /root/${repo}_ws/install/setup.bash" >> ~/.bashrc
