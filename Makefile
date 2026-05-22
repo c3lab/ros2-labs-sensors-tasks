@@ -19,9 +19,13 @@ EB_CAM_IMAGE:=ros:eb_cam
 EB_CAM_NAME:=ros_eb_cam
 EB_CAM_FILE:=./docker_ws/Dockerfile.eb_cam
 
+ZED_CAM_IMAGE:=ros:zed_cam
+ZED_CAM_NAME:=ros_zed_cam
+ZED_CAM_FILE:=./docker_ws/Dockerfile.zed_cam
+
 ROS_DOMAIN_ID:=13
 
-.PHONY: build_sim run_turtlebot3 exec_turtlebot3 build_rp_lidar run_rp_lidar build_ouster run_ouster build_usb_cam run_usb_cam build_eb_cam run_eb_cam build_all
+.PHONY: build_sim run_turtlebot3 exec_turtlebot3 build_rp_lidar run_rp_lidar build_ouster run_ouster build_usb_cam run_usb_cam build_eb_cam run_eb_cam build_zed_cam run_zed_cam build_all
 
 build_all:
 	@$(MAKE) build_sim
@@ -124,3 +128,22 @@ run_eb_cam:
     --name $(EB_CAM_NAME) \
     -w /root/event_camera_renderer_ws \
     $(EB_CAM_IMAGE) bash
+
+build_zed_cam:
+	@docker build --rm -t $(ZED_CAM_IMAGE) -f $(ZED_CAM_FILE) ./docker_ws
+
+run_zed_cam:
+	@xhost +
+	@docker run -it --rm --net host --ipc host --privileged \
+	--gpus all \
+	--runtime nvidia \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-v ~/.Xauthority:/root/.Xauthority \
+	-e DISPLAY=$(DISPLAY) \
+	-e XAUTHORITY=$(XAUTHORITY) \
+	-e ROS_DOMAIN_ID=$(ROS_DOMAIN_ID) \
+	--name $(ZED_CAM_NAME) \
+	-w /root/ros2_ws \
+	-v ./zed/settings:/usr/local/zed/settings \
+	-v ./zed/resources:/usr/local/zed/resources \
+	$(ZED_CAM_IMAGE) bash
