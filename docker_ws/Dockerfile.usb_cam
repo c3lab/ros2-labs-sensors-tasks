@@ -2,7 +2,7 @@ FROM ros:jazzy
 
 RUN apt update && apt upgrade -y
 
-RUN apt install -y \
+RUN apt update && apt install -y \
     ros-jazzy-usb-cam \
     ros-jazzy-rviz2
 

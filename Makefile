@@ -1,26 +1,26 @@
 
-SIM_IMAGE:=ros:lab_sensors
-SIM_NAME:=ros_lab_sensors
-SIM_FILE:=./docker_ws/Dockerfile.lab_sensors
+SIM_IMAGE:=ros_labs/sim
+SIM_NAME:=ros_labs_sim
+SIM_FILE:=./docker_ws/Dockerfile.lab_sim
 
-RP_LIDAR_IMAGE:=ros:rp_lidar
-RP_LIDAR_NAME:=ros_rp_lidar
+RP_LIDAR_IMAGE:=ros_labs/rp_lidar
+RP_LIDAR_NAME:=ros_labs_rp_lidar
 RP_LIDAR_FILE:=./docker_ws/Dockerfile.rp_lidar
 
-OUSTER_IMAGE:=ros:ouster
-OUSTER_NAME:=ros_ouster
+OUSTER_IMAGE:=ros_labs/ouster
+OUSTER_NAME:=ros_labs_ouster
 OUSTER_FILE:=./docker_ws/Dockerfile.ouster
 
-USB_CAM_IMAGE:=ros:usb_cam
-USB_CAM_NAME:=ros_usb_cam
+USB_CAM_IMAGE:=ros_labs/usb_cam
+USB_CAM_NAME:=ros_labs_usb_cam
 USB_CAM_FILE:=./docker_ws/Dockerfile.usb_cam
 
-EB_CAM_IMAGE:=ros:eb_cam
-EB_CAM_NAME:=ros_eb_cam
+EB_CAM_IMAGE:=ros_labs/eb_cam
+EB_CAM_NAME:=ros_labs_eb_cam
 EB_CAM_FILE:=./docker_ws/Dockerfile.eb_cam
 
-ZED_CAM_IMAGE:=ros:zed_cam
-ZED_CAM_NAME:=ros_zed_cam
+ZED_CAM_IMAGE:=ros_labs/zed_cam
+ZED_CAM_NAME:=ros_labs_zed_cam
 ZED_CAM_FILE:=./docker_ws/Dockerfile.zed_cam
 
 ROS_DOMAIN_ID:=13
@@ -146,4 +146,4 @@ run_zed_cam:
 	-w /root/ros2_ws \
 	-v ./zed/settings:/usr/local/zed/settings \
 	-v ./zed/resources:/usr/local/zed/resources \
-	$(ZED_CAM_IMAGE) bash
+	$(ZED_CAM_IMAGE) ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2i
