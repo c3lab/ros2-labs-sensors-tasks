@@ -9,5 +9,9 @@ RUN apt update -y && apt install -y ros-jazzy-ros-gz
 # install turtlebot3 simulation
 RUN apt update -y && apt install -y ros-jazzy-turtlebot3-gazebo
 
+ENV __GLX_VENDOR_LIBRARY_NAME=nvidia
+ENV __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/10_nvidia.json
+ENV GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:/opt/ros/jazzy/share/turtlebot3_gazebo/models/turtlebot3_house/cafe_table/materials/textures/
+
 RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
 RUN echo "source /root/ros_workspace/install/setup.bash" >> ~/.bashrc

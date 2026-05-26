@@ -58,6 +58,7 @@ def generate_launch_description():
     #######################################################
     ###          Setup configuration variables          ###
     #######################################################
+    
     gzserver_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz_sim, 'launch', 'gz_sim.launch.py')

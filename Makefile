@@ -25,7 +25,7 @@ ZED_CAM_FILE:=./docker_ws/Dockerfile.zed_cam
 
 ROS_DOMAIN_ID:=13
 
-.PHONY: build_sim run_turtlebot3 exec_turtlebot3 build_rp_lidar run_rp_lidar build_ouster run_ouster build_usb_cam run_usb_cam build_eb_cam run_eb_cam build_zed_cam run_zed_cam build_all
+.PHONY: build_sim run_sim exec_sim build_rp_lidar run_rp_lidar build_ouster run_ouster build_usb_cam run_usb_cam build_eb_cam run_eb_cam build_zed_cam run_zed_cam build_all
 
 build_all:
 	@$(MAKE) build_sim
@@ -37,7 +37,7 @@ build_all:
 build_sim:
 	@docker build --rm -t $(SIM_IMAGE) -f $(SIM_FILE) ./docker_ws
 
-run_turtlebot3:
+run_sim:
 	@xhost +
 	@docker run -it --rm --net host --ipc host --privileged \
     --gpus all \
@@ -52,7 +52,7 @@ run_turtlebot3:
     --name $(SIM_NAME) \
 	$(SIM_IMAGE) bash
 
-exec_turtlebot3:
+exec_sim:
 	@docker exec -it $(SIM_NAME) bash
 
 build_rp_lidar:
