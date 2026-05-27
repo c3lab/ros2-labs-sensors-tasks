@@ -102,7 +102,7 @@ run_usb_cam:
     -e XAUTHORITY=$(XAUTHORITY) \
     -e ROS_DOMAIN_ID=$(ROS_DOMAIN_ID) \
     --name $(USB_CAM_NAME) \
-	$(USB_CAM_IMAGE) ros2 run usb_cam usb_cam_node_exe
+	$(USB_CAM_IMAGE) ros2 launch usb_cam camera.launch.py
 
 build_eb_cam:
 	@docker build --rm -t $(EB_CAM_IMAGE) -f $(EB_CAM_FILE) ./docker_ws

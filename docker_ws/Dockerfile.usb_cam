@@ -4,6 +4,7 @@ RUN apt update && apt upgrade -y
 
 RUN apt update && apt install -y \
     ros-jazzy-usb-cam \
-    ros-jazzy-rviz2
+    ros-jazzy-rviz2 \
+    python3-pydantic
 
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
